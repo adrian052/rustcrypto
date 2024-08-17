@@ -1,4 +1,4 @@
-pub fn caesar(text: &str, shift: u8) -> String {
+pub fn encrypt(text: &str, shift: u8) -> String {
     text.chars().map(|c| {
         if c.is_ascii_alphabetic() {
             let base = if c.is_ascii_lowercase() { b'a' } else { b'A' };
@@ -18,41 +18,41 @@ mod tests {
 
     #[test]
     fn test_basic_shift() {
-        assert_eq!(caesar("abc", 1), "bcd");
+        assert_eq!(encrypt("abc", 1), "bcd");
     }
 
     #[test]
     fn test_shift_wrap_around() {
-        assert_eq!(caesar("xyz", 3), "abc");
+        assert_eq!(encrypt("xyz", 3), "abc");
     }
 
     #[test]
     fn test_uppercase_shift() {
-        assert_eq!(caesar("XYZ", 3), "ABC");
+        assert_eq!(encrypt("XYZ", 3), "ABC");
     }
 
     #[test]
     fn test_mixed_case_shift() {
-        assert_eq!(caesar("AbC", 2), "CdE");
+        assert_eq!(encrypt("AbC", 2), "CdE");
     }
 
     #[test]
     fn test_no_shift() {
-        assert_eq!(caesar("Rust", 0), "Rust");
+        assert_eq!(encrypt("Rust", 0), "Rust");
     }
     
     #[test]
     fn test_large_positive_shift() {
-        assert_eq!(caesar("abc", 29), "def");
+        assert_eq!(encrypt("abc", 29), "def");
     }
 
     #[test]
     fn test_non_alphabetic_characters() {
-        assert_eq!(caesar("abc-123!", 3), "def-123!");
+        assert_eq!(encrypt("abc-123!", 3), "def-123!");
     }
 
     #[test]
     fn test_empty_string() {
-        assert_eq!(caesar("", 5), "");
+        assert_eq!(encrypt("", 5), "");
     }
 }
