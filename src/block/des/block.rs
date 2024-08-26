@@ -71,7 +71,6 @@ impl DesBlock {
         let result = self.expansion_permutation()?
                                     .key_xor(&key)
                                     .box_s()
-                                    .box_s()
                                     .transposition();
         Ok(result)
     }
@@ -253,14 +252,14 @@ mod test {
         let key = Key::mock_key();
         let block = String::from("ABCDEFGH").parse::<DesBlock>().unwrap().get_right_bits();
         let result = block.mangler_function(key).unwrap();
-        assert_eq!(result.to_hex_string(), "0x0000000045EBF6BD");
+        assert_eq!(result.to_hex_string(), "0x000000007BB1FF34");
     }
 
     #[test]
     fn test_single_round(){
         let block = String::from("abcdefgh").parse::<DesBlock>().unwrap();
         let round1 = block.round_des(Key::mock_key());
-        assert_eq!(round1.string_bits(), "0110010101100110011001110110100010000010101110001000110110011100")
+        assert_eq!(round1.string_bits(), "0110010101100110011001110110100000011000110101100001100011010111")
     }
 
     #[test]
@@ -268,7 +267,7 @@ mod test {
         let block = DesBlock::from_64bits_number(0x123456ABCD132536);
         let key = Key::from_64bits_number(0xAABB09182736CCDD);
         let encrypted = block.encrypt_block(&key);
-        assert_eq!(encrypted.to_hex_string(), "0x89080197AA6D1AB8");
+        assert_eq!(encrypted.to_hex_string(), "0xC0B7A8D05F3A829C");
         let decrypted = encrypted.decrypt_block(&key);
         assert_eq!(decrypted.to_hex_string(), "0x123456ABCD132536");
     }
