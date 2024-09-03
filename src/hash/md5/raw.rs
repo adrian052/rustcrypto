@@ -1,4 +1,4 @@
-use std::{error::Error, slice::Chunks, str::FromStr};
+use std::{error::Error, os::linux::raw, slice::Chunks, str::FromStr};
 
 pub struct RawData{
     data: Vec<u8>
@@ -8,7 +8,7 @@ impl FromStr for RawData {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut bytes = s.as_bytes().to_vec();
+        let mut bytes = utf8_to_vec_u8(s);
         let original_length_bits = (bytes.len() as u64) * 8;
         bytes.push(0x80);
         while (bytes.len() * 8) % 512 != 448 {
@@ -20,13 +20,32 @@ impl FromStr for RawData {
     }
 }
 
+fn utf8_to_vec_u8(s: &str) -> Vec<u8> {
+    let mut bytes = Vec::new();
+    for ch in s.chars() {
+        let mut buf = [0; 4];
+        let encoded = ch.encode_utf8(&mut buf);
+        bytes.extend_from_slice(encoded.as_bytes());
+    }
+    bytes
+}
+
 impl RawData {
+    
+
     pub fn len(&self) -> usize {
         self.data.len()
     }
 
     pub fn get_chunks(&self) -> Chunks<'_, u8>{
         self.data.chunks(64)
+    }
+
+    pub fn get_hex(&self) -> String {
+        self.data.iter().map(|byte| format!("{:02x}", byte)).collect()
+    }
+    pub fn get_data(&self) -> Vec<u8> {
+        self.data.clone()
     }
 }
 
