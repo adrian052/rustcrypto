@@ -1,4 +1,4 @@
-use std::{error::Error, os::linux::raw, slice::Chunks, str::FromStr};
+use std::{slice::Chunks, str::FromStr};
 
 pub struct RawData{
     data: Vec<u8>

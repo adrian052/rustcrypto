@@ -1,11 +1,8 @@
-use std::{error::Error, string::ParseError};
-use crate::block;
-
 use super::raw::RawData;
 
 
 #[derive(Debug)]
-pub(crate) struct BlockMD5{
+pub struct BlockMD5{
     data:[u32; 16]
 }
 
@@ -70,7 +67,6 @@ fn combine_u8_to_u32(bytes: &[u8]) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use core::panic;
     use std::str::FromStr;
 
     use super::*;
@@ -81,7 +77,7 @@ mod tests {
         let blocks_result: Result<Vec<BlockMD5>, BlockParseError> = raw.try_into();
         let blocks = blocks_result.unwrap();
         let block = &blocks[0];
-        assert_eq!(block.data,[1633837952, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 402653184, 0])
+        assert_eq!(block.data,[2153996897, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0])
     }
 
 }
