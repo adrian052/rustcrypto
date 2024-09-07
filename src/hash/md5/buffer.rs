@@ -1,4 +1,6 @@
-use super::block::BlockMD5;
+use crate::hash::md5::Block512;
+
+
 
 pub struct Buffer{
     data: [u32; 4]
@@ -17,7 +19,7 @@ impl Buffer{
         }
     }
 
-    pub fn process_block(&mut self, block: &BlockMD5) {
+    pub fn process_block(&mut self, block: &Block512) {
     
         let mut a = self.data[0].clone();
         let mut b = self.data[1].clone();
@@ -120,6 +122,4 @@ impl Buffer{
             ]);
         }
     }
-
-    
 }

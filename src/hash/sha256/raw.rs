@@ -14,7 +14,7 @@ impl FromStr for RawData {
         while (bytes.len() * 8) % 512 != 448 {
             bytes.push(0x00);
         }
-        bytes.extend_from_slice(&original_length_bits.to_le_bytes());
+        bytes.extend_from_slice(&original_length_bits.to_be_bytes());
         let raw_data = RawData { data: bytes };
         Ok(raw_data)
     }

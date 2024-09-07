@@ -1,4 +1,4 @@
-use crate::hash::md5::RawData;
+use crate::hash::sha256::RawData;
 
 #[derive(Debug)]
 pub struct Block512{
@@ -36,7 +36,7 @@ impl  Block512{
 
         let mut u32_values = [0u32; 16];
         for (i, u32_value) in u32_values.iter_mut().enumerate() {
-            *u32_value = Block512::combine_u8_to_u32_le(&chunk[i * 4..i * 4 + 4]);
+            *u32_value = Block512::combine_u8_to_u32(&chunk[i * 4..i * 4 + 4]);
         }
 
         Ok(Block512 {
@@ -44,13 +44,12 @@ impl  Block512{
         })
     }
 
-    fn combine_u8_to_u32_le(bytes: &[u8]) -> u32 {
-        (bytes[3] as u32) << 24 |
-        (bytes[2] as u32) << 16 |
-        (bytes[1] as u32) << 8  |
-        (bytes[0] as u32)
+    fn combine_u8_to_u32(bytes: &[u8]) -> u32 {
+        (bytes[0] as u32) << 24 |
+        (bytes[1] as u32) << 16 |
+        (bytes[2] as u32) << 8  |
+        (bytes[3] as u32)
     }
-
 
     pub fn get_word(&self, idx: usize) -> u32{
         self.data[idx]

@@ -1,21 +1,21 @@
 use buffer::Buffer;
-use block::{BlockMD5, BlockParseError};
-use raw::RawData;
+use crate::hash::md5::block::{Block512, BlockParseError};
+use crate::hash::md5::raw::RawData;
 
-pub mod raw;
-pub mod block;
 pub mod buffer;
+pub mod block;
+pub mod raw;
 
 
 struct MD5 {
-    blocks: Vec<BlockMD5>,
+    blocks: Vec<Block512>,
     buffer: Buffer,
     calculated: bool
 }
 
 impl MD5 {
     pub fn new(raw_data: RawData) -> Result<Self, BlockParseError> {
-        let blocks_result: Result<Vec<BlockMD5>, BlockParseError> = raw_data.try_into();
+        let blocks_result: Result<Vec<Block512>, BlockParseError> = raw_data.try_into();
         match blocks_result {
             Ok(blocks) => Ok(
                 MD5 { 
@@ -50,7 +50,6 @@ mod tests {
     use std::str::FromStr;
 
     use super::*;
-    use raw::RawData;
 
     #[test]
     fn test_md5_example1() {
