@@ -1,8 +1,7 @@
 use rand::Rng;
 use rug::{rand::RandState, Complete, Integer};
 
-pub mod prime_generator;
-
+use super::prime_generator;
 struct RSAKeyPair {
     n: Integer,
     e: Integer,   
@@ -49,7 +48,7 @@ mod test {
 
     #[test]
     fn test(){
-        let rsa = RSAKeyPair::new(2024);
+        let rsa = RSAKeyPair::new(2048);
         let message = Integer::from(1234567890);
         let ciphertext = rsa.encrypt(&message);
         let decrypted_message = rsa.decrypt(&ciphertext);

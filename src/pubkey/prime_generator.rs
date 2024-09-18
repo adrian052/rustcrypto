@@ -1,3 +1,4 @@
+use rand::Rng;
 use rug::{Integer, rand::RandState};
 
 fn first_100_primes() -> Vec<Integer> {
@@ -20,6 +21,13 @@ fn is_divisible_by_small_primes(candidate: &Integer, primes: &[Integer]) -> bool
     false
 }
 
+
+pub fn random_small_prime() -> Integer {
+    let primes = first_100_primes();
+    let mut rng = rand::thread_rng();
+    let index = rng.gen_range(0..primes.len());
+    primes[index].clone()
+}
 
 pub fn generate_large_prime(bits: u32, state:&mut RandState<'_>) -> Integer {
 
